@@ -15,8 +15,7 @@ public class Game extends Canvas implements Runnable {
 	 * This class is made by v7_FlasH. Last updated 2013-06-14.
 	 */
 
-	//Changed it!
-	//Cool!!
+
 	
 	public static int width = 1280;
 	public static int height = 720;
