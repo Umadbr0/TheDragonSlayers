@@ -54,6 +54,9 @@ public class Start extends Canvas implements Runnable {
 	public Start() {
 		
 		
+		//TODO-Create a mob class.
+		//TODO-Create a Player class that extends the mob and make all methods like render and update n' stuff :)
+		
 		Mouse mouse = new Mouse();
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);

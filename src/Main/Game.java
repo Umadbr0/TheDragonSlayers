@@ -45,7 +45,6 @@ public class Game extends Canvas {
 		screen.setOffset(x, y);
 
 		screen.render(0, 0, test, g);
-
 		screen.render(1, 1, test, g);
 		screen.render(2, 1, test, g);
 		screen.render(3, 3, test, g);
