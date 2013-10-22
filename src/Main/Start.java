@@ -32,22 +32,22 @@ public class Start extends Canvas implements Runnable {
 	//Booleans
 	private boolean running = false;
 	//Classes
-	private JFrame frame;
+	private final JFrame frame;
 	private Thread gameThread;
-	private menu m;
-	private Game game;
+	private final menu m;
+	private final Game game;
 	public Keyboard key;
 
-	public static State state = State.MENU;
+	public static State state = State.GAME;
 	
 	
 	
 	
 
 
-	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	private final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	@SuppressWarnings("unused")
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+	private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
 	
 	
@@ -64,10 +64,16 @@ public class Start extends Canvas implements Runnable {
 		key = new Keyboard();
 		addKeyListener(key);
 		
+		key.addKey(KeyEvent.VK_UP);
+		key.addKey(KeyEvent.VK_DOWN);
+		key.addKey(KeyEvent.VK_LEFT);
+		key.addKey(KeyEvent.VK_RIGHT);
+		
 		key.addKey(KeyEvent.VK_W);
 		key.addKey(KeyEvent.VK_S);
 		key.addKey(KeyEvent.VK_A);
 		key.addKey(KeyEvent.VK_D);
+		
 		frame = new JFrame();
 		m = new menu();
 		game = new Game(key);
@@ -95,6 +101,7 @@ public class Start extends Canvas implements Runnable {
 
 	}
 
+	@Override
 	public void run() {
 
 		long lastTime = System.nanoTime();
