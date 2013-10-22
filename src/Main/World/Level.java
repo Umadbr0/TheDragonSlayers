@@ -36,11 +36,17 @@ public class Level {
 		}
 	}
 
-	public void render(Graphics g) {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (getTile(x, y) != Tile.air)
-					getTile(x, y).render(x, y, g, s);
+	public void render(int xScroll, int yScroll, Graphics g) {
+
+//		System.out.println(-xScroll / 64 + ", " + -yScroll / 64);
+
+		int x0 = -xScroll / 64;
+		int y0 = -yScroll / 64;
+		
+
+		for (int y = y0; y < y0 + 9; y++) {
+			for (int x = x0; x < x0 + 16; x++) {
+				getTile(x, y).render(x, y, g, s);
 			}
 		}
 	}
@@ -49,12 +55,16 @@ public class Level {
 		if ((x < 0) || (x > width) || (y < 0) || (y > height))
 			return Tile.air;
 
-		// System.out.println(tiles[x + y * width] + ", " + x + ", " + y);
+//		System.out.println(tiles[x + y * width] + ", " + x + ", " + y);
 
+		try {
 		if (tiles[x + y * width] == Tile.grass.color)
 			return Tile.grass;
 		if (tiles[x + y * width] == Tile.sand.color)
 			return Tile.sand;
+		} catch(Exception e) {
+//			System.err.println("Render fail!");
+		}
 		return Tile.air;
 
 	}

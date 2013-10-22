@@ -1,9 +1,13 @@
 package Main;
 
 import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import Flash.Button.FFunc;
+import Flash.Button.Mouse;
 import Flash.Images.FImage;
 import Flash.Input.Keyboard;
 import FrameWork.Screen;
@@ -14,13 +18,15 @@ import Main.World.Level;
 @SuppressWarnings("serial")
 public class Game extends Canvas {
 
-	Image test;
+	Image hud;
 
 	public Screen screen;
 	public Keyboard key;
 	public Level level;
 
 	public Mob player;
+
+	public String camMode = "follow";
 
 	int x, y;
 
@@ -29,7 +35,7 @@ public class Game extends Canvas {
 
 		level = new Level(screen);
 
-		test = FImage.loadImage("/textures/menu.png");
+		hud = FImage.loadImage("/textures/hud.png");
 
 		player = new Player(5, 5, key);
 
@@ -37,24 +43,64 @@ public class Game extends Canvas {
 
 	}
 
+	int mox, moy;
+
 	public void update() {
 		key.update();
-		if (key.key.get(0))
-			y += 5;
-		if (key.key.get(1))
-			y -= 5;
-		if (key.key.get(2))
-			x += 5;
-		if (key.key.get(3))
-			x -= 5;
-		
+		camMode = "mouse";
+
+		if (camMode.equalsIgnoreCase("followHalf")) {
+			if (player.x < x)
+				x -= player.speed;
+			if (player.y < y)
+				y -= player.speed;
+			if (player.x + 50 * 2 > x + 960)
+				x += player.speed;
+			if (player.y + 75 * 2 > y + 480)
+				y += player.speed;
+		}
+
+		if (camMode.equalsIgnoreCase("follow")) {
+			x = player.x - 450;
+			y = player.y - 180;
+		}
+
+		if (camMode.equalsIgnoreCase("mouse"))
+			if (FFunc.mouseCheckLeft(0, 0, 960, 480)) {
+				if (Mouse.mouseX < mox)
+					x -= (Math.abs(mox - Mouse.mouseX) / 10);
+				if (Mouse.mouseX > mox)
+					x += (Math.abs(mox - Mouse.mouseX) / 10);
+				if (Mouse.mouseY < moy)
+					y -= (Math.abs(moy - Mouse.mouseY) / 10);
+				if (Mouse.mouseY > moy)
+					y += (Math.abs(moy - Mouse.mouseY) / 10);
+
+			}
+
 		player.update();
 	}
 
 	public void render(Graphics g) {
-		screen.setOffset(x, y);
-		level.render(g);
+
+		screen.setOffset(-x, -y);
+		level.render(-x, -y, g);
 		player.render(screen, g);
+
+		if (camMode.equalsIgnoreCase("mouse"))
+			if (FFunc.mouseCheckLeft(0, 0, 960, 480)) {
+				g.setColor(Color.blue);
+				g.fillOval(mox - 15, moy - 15, 30, 30);
+				g.drawLine(mox, moy, Mouse.mouseX, Mouse.mouseY);
+			} else {
+				mox = Mouse.mouseX;
+				moy = Mouse.mouseY;
+			}
+
+		g.drawImage(hud, 0, 0, null);
+		g.setColor(Color.yellow);
+		g.setFont(new Font("Verdana", 1, 20));
+		g.drawString("Cam mode: " + camMode, 970, 510);
 
 	}
 

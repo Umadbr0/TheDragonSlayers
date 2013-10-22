@@ -9,7 +9,7 @@ import FrameWork.Screen;
 public class Mob {
 
 	public int x, y;
-	public int speed = 2;
+	public int speed = 5;
 	public Keyboard key;
 	public Image sprite;
 
