@@ -2,14 +2,15 @@ package Main.Mob;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Random;
 
 import Flash.Graphics.Animation.Animation;
 import Flash.Images.FImage;
-import Flash.Input.Keyboard;
 import FrameWork.Screen;
 
-public class Player extends Mob {
+public class mobOne extends Mob {
 
+	public Random r;
 	public Animation a;
 	int anim;
 
@@ -25,10 +26,12 @@ public class Player extends Mob {
 	Image u1;
 	Image u2;
 	Image u3;
-	public Player(int x, int y, Keyboard key) {
-		super(x, y, key);
-		type = "player";
+
+	public mobOne(int x, int y) {
+		super(x, y);
+		type = "test";
 		sprite = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
+
 		d1 = FImage.loadImage("/textures/mobs/" + type + "/Down1.png");
 		d2 = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
 		d3 = FImage.loadImage("/textures/mobs/" + type + "/Down3.png");
@@ -42,11 +45,13 @@ public class Player extends Mob {
 		u2 = FImage.loadImage("/textures/mobs/" + type + "/Up2.png");
 		u3 = FImage.loadImage("/textures/mobs/" + type + "/Up3.png");
 		speed = 3;
-	
+		r = new Random();
 	}
 
 	int xa, ya;
 	int i = 1;
+	int j = 0;
+	int rand = 5;
 
 	public void update() {
 
@@ -59,14 +64,21 @@ public class Player extends Mob {
 		}
 		i++;
 
-		if (key.key.get(4))
-			ya = -speed;
-		if (key.key.get(5))
-			ya = speed;
-		if (key.key.get(6))
-			xa = -speed;
-		if (key.key.get(7))
+		if (j > 20) {
+			rand = r.nextInt(10);
+			j = 0;
+
+		}
+		j++;
+
+		if (rand == 0)
 			xa = speed;
+		if (rand == 1)
+			xa = -speed;
+		if (rand == 2)
+			ya = speed;
+		if (rand == 3)
+			ya = -speed;
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);

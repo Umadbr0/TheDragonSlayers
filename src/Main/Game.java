@@ -13,6 +13,7 @@ import Flash.Input.Keyboard;
 import FrameWork.Screen;
 import Main.Mob.Mob;
 import Main.Mob.Player;
+import Main.Mob.mobOne;
 import Main.World.Level;
 
 @SuppressWarnings("serial")
@@ -26,7 +27,8 @@ public class Game extends Canvas {
 
 	public Mob player;
 
-	public String camMode = "follow";
+
+	public String camMode = "mouse";
 
 	int x, y;
 
@@ -38,7 +40,12 @@ public class Game extends Canvas {
 		hud = FImage.loadImage("/textures/hud.png");
 
 		player = new Player(5, 5, key);
-
+		
+		for (int i = 0; i < 5; i++) {
+			Mob mob = new mobOne(64, 64*i);
+			level.addMob(mob);
+		}
+		
 		this.key = key;
 
 	}
@@ -47,7 +54,6 @@ public class Game extends Canvas {
 
 	public void update() {
 		key.update();
-		camMode = "mouse";
 
 		if (camMode.equalsIgnoreCase("followHalf")) {
 			if (player.x < x)
@@ -78,6 +84,8 @@ public class Game extends Canvas {
 
 			}
 
+		level.update();
+		
 		player.update();
 	}
 
@@ -86,7 +94,7 @@ public class Game extends Canvas {
 		screen.setOffset(-x, -y);
 		level.render(-x, -y, g);
 		player.render(screen, g);
-
+		
 		if (camMode.equalsIgnoreCase("mouse"))
 			if (FFunc.mouseCheckLeft(0, 0, 960, 480)) {
 				g.setColor(Color.blue);

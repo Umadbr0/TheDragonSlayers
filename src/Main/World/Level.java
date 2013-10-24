@@ -3,25 +3,43 @@ package Main.World;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import FrameWork.Screen;
+import Main.Mob.Mob;
 
 public class Level {
 
+	
+	//An array of all mobs currently in that level.
+	public ArrayList<Mob> mobs = new ArrayList<Mob>();
+	
 	// The array that stores every tile.
 	public int[] tiles;
 
+	
+	//The screen as is used for rendering.
 	private final Screen s;
 
+	//The level dimensions.
 	public int width, height;
 
+	
+	/*
+	 * Add a level.
+	 */
 	public Level(Screen screen) {
 		loadLevel("/level.png");
 		s = screen;
 	}
 
+	
+	/*
+	 * Loads the level from a png file by passing in the path.
+	 * The map resizes to what ever the png file is.
+	 */
 	private void loadLevel(String string) {
 		try {
 			BufferedImage image = ImageIO.read(Level.class.getResource(string));
@@ -36,9 +54,20 @@ public class Level {
 		}
 	}
 
+	/*
+	 * Use this to add a mob to the level.
+	 */
+	public void addMob(Mob m) {
+		mobs.add(m);
+	}
+	
+	
+	/*
+	 * The main render method for the level and all the mobs in it.
+	 * Might add some config for what mobs to render.
+	 */
 	public void render(int xScroll, int yScroll, Graphics g) {
 
-//		System.out.println(-xScroll / 64 + ", " + -yScroll / 64);
 
 		int x0 = -xScroll / 64;
 		int y0 = -yScroll / 64;
@@ -49,13 +78,33 @@ public class Level {
 				getTile(x, y).render(x, y, g, s);
 			}
 		}
+		
+		for (int i = 0; i < mobs.size(); i++) {
+			mobs.get(i).render(s, g);
+		}
+		
+		
+	}
+	
+	/*
+	 * Call this at around 60 times a second to update the level and all mobs in it
+	 * except the player witch has its own update method.
+	 */
+	public void update() {
+		for (int i = 0; i < mobs.size(); i++) {
+			mobs.get(i).update();
+		}
 	}
 
+	
+	
+	/*
+	 * Use this to get a spesific tile by its coords.
+	 */
 	public Tile getTile(int x, int y) {
 		if ((x < 0) || (x > width) || (y < 0) || (y > height))
 			return Tile.air;
 
-//		System.out.println(tiles[x + y * width] + ", " + x + ", " + y);
 
 		try {
 		if (tiles[x + y * width] == Tile.grass.color)
@@ -63,7 +112,6 @@ public class Level {
 		if (tiles[x + y * width] == Tile.sand.color)
 			return Tile.sand;
 		} catch(Exception e) {
-//			System.err.println("Render fail!");
 		}
 		return Tile.air;
 
