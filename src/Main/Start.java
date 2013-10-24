@@ -24,8 +24,8 @@ public class Start extends Canvas implements Runnable {
 		MENU, GAME
 	}
 	
-	public static int width = 1280;
-	public static int height = 720;
+	public static int width = 1200;
+	public static int height = 700;
 	public final static String TITLE = "The Dragon Slayers ALPHA";
 	public final static String VERSION = "0.1";
 
