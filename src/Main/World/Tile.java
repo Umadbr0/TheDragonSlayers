@@ -7,6 +7,7 @@ import Flash.Images.FImage;
 import FrameWork.Screen;
 import Main.World.Tiles.tileGrass;
 import Main.World.Tiles.tileSand;
+import Main.World.Tiles.tileWater;
 
 public class Tile {
 
@@ -18,10 +19,9 @@ public class Tile {
 	 * Register tiles below.
 	 */
 	public static Tile air = new Tile("Air");
-	public static Tile grass = new tileGrass("Grass",
-			"/textures/Tiles/grass.png", 0xff4CFF00);
+	public static Tile grass = new tileGrass("Grass", "/textures/Tiles/grass.png", 0xff4CFF00);
 	public static Tile sand = new tileSand("Sand", "/textures/Tiles/sand.png", 0xffFFD800);
-	
+	public static Tile water = new tileWater("Water","/textures/Tiles/water.png", 0xff0094FF);
 	
 	
 	

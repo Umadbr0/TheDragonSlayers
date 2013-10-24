@@ -107,6 +107,8 @@ public class Level {
 
 
 		try {
+		if (tiles[x + y * width] == Tile.water.color)
+			return Tile.water;
 		if (tiles[x + y * width] == Tile.grass.color)
 			return Tile.grass;
 		if (tiles[x + y * width] == Tile.sand.color)
