@@ -11,6 +11,7 @@ import Flash.Button.Mouse;
 import Flash.Images.FImage;
 import Flash.Input.Keyboard;
 import FrameWork.Screen;
+import Main.Inventory.Inventory;
 import Main.Mob.Mob;
 import Main.Mob.Player;
 import Main.Mob.mobOne;
@@ -27,6 +28,8 @@ public class Game extends Canvas {
 
 	public Mob player;
 
+	
+	public Inventory inv;
 
 	public String camMode = "mouse";
 
@@ -45,6 +48,8 @@ public class Game extends Canvas {
 			Mob mob = new mobOne(64, 64*i);
 			level.addMob(mob);
 		}
+		
+		inv = new Inventory(990, 25, 5, 4);
 		
 		this.key = key;
 
@@ -110,6 +115,10 @@ public class Game extends Canvas {
 		g.setFont(new Font("Verdana", 1, 20));
 		g.drawString("Cam mode: " + camMode, 970, 510);
 
+
+		
+		inv.render(g);
+		
 	}
 
 }
