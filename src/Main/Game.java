@@ -7,11 +7,13 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import Flash.Button.FFunc;
+import Flash.Button.FGrid;
 import Flash.Button.Mouse;
 import Flash.Images.FImage;
 import Flash.Input.Keyboard;
 import FrameWork.Screen;
 import Main.Inventory.Inventory;
+import Main.Items.Item;
 import Main.Mob.Mob;
 import Main.Mob.Player;
 import Main.Mob.mobOne;
@@ -28,29 +30,38 @@ public class Game extends Canvas {
 
 	public Mob player;
 
-	
 	public Inventory inv;
 
 	public String camMode = "mouse";
 
 	int x, y;
+	
+	public Item item;
 
 	public Game(Keyboard key) {
 		screen = new Screen(1280, 720, 64);
 
+		
 		level = new Level(screen);
 
 		hud = FImage.loadImage("/textures/hud.png");
 
 		player = new Player(5, 5, key);
-		
+
 		for (int i = 0; i < 5; i++) {
-			Mob mob = new mobOne(64, 64*i);
+			Mob mob = new mobOne(64, 64 * i);
 			level.addMob(mob);
 		}
+
+		inv = new Inventory(993, 28, 5, 4); 
+
+		item = new Item();
 		
-		inv = new Inventory(990, 25, 5, 4);
-		
+		inv.addItem(5, Item.getItem("Test"), 1);
+		inv.addItem(1, Item.getItem("Stick"), 28);
+		inv.addItem(9, Item.getItem("Stick"), 46);
+		inv.addItem(15, Item.getItem("Test"), 11);
+
 		this.key = key;
 
 	}
@@ -90,7 +101,7 @@ public class Game extends Canvas {
 			}
 
 		level.update();
-		
+
 		player.update();
 	}
 
@@ -99,7 +110,7 @@ public class Game extends Canvas {
 		screen.setOffset(-x, -y);
 		level.render(-x, -y, g);
 		player.render(screen, g);
-		
+
 		if (camMode.equalsIgnoreCase("mouse"))
 			if (FFunc.mouseCheckLeft(0, 0, 960, 480)) {
 				g.setColor(Color.blue);
@@ -115,10 +126,10 @@ public class Game extends Canvas {
 		g.setFont(new Font("Verdana", 1, 20));
 		g.drawString("Cam mode: " + camMode, 970, 510);
 
+		// FGrid.addRandomGrid(g, 993, 28, 49, 49, 5, 4, 5, false);
 
-		
 		inv.render(g);
-		
+
 	}
 
 }
