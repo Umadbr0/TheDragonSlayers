@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import FrameWork.Screen;
+import Main.Items.Item;
 import Main.Mob.Mob;
 
 public class Level {
@@ -15,6 +16,9 @@ public class Level {
 	
 	//An array of all mobs currently in that level.
 	public ArrayList<Mob> mobs = new ArrayList<Mob>();
+	
+	//An array with all items loaded in the world.
+	public ArrayList<Item> items = new ArrayList<Item>();
 	
 	// The array that stores every tile.
 	public int[] tiles;
@@ -60,6 +64,16 @@ public class Level {
 	public void addMob(Mob m) {
 		mobs.add(m);
 	}
+	
+	/*
+	 * Use this to add a item to the level.
+	 */
+	public void addItem(Item i) {
+		int j = items.size();
+		items.add(i);
+		items.get(items.size() - 1).inWorldId = j;
+	}
+	
 	
 	
 	/*

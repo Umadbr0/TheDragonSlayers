@@ -35,7 +35,11 @@ public class Inventory {
 
 
 	
-	
+
+
+	public void addItem(int slotNr, Item i) {
+		slots.get(slotNr).item = i;
+	}
 	
 	
 	public void render(Graphics g) {
@@ -43,5 +47,11 @@ public class Inventory {
 			slots.get(i).render(g, i);		
 		}
 	}
+
+
+
+
+
+
 
 }

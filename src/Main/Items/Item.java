@@ -1,46 +1,29 @@
 package Main.Items;
 
 import java.awt.Image;
-import java.util.ArrayList;
 
 import Flash.Images.FImage;
 
 public class Item {
-
-	public static ArrayList<Item> registerdItems = new ArrayList<Item>();
-
+	
 	public String name;
 	public Image texture;
 	public int amount = 0;
-
-	
-
-	public Item() {
-		addItem("Test", "/textures/Items/test.png");
-		addItem("Stick", "/textures/Items/stick.png");
-	}
-	
-	
-	public static void addItem(String name, String tex) {
-		Item i = new Item(name, tex);
-		registerdItems.add(i);
-	}
+	public int inWorldId = 0;
 	
 	
 	
-	public Item(String name, String tex) {
+	//Register items here:
+	
+	public static Item saphire = new Item("Saphire", "/textures/Items/test.png");
+	
+	
+	
+	
+	
+	public Item(String name, String path) {
 		this.name = name;
-		texture = FImage.loadImage(tex);
+		texture = FImage.loadImage(path);
 	}
 	
-	
-
-	public static Item getItem(String itemName) {
-		for (int i = 0; i < registerdItems.size(); i++) {
-			if (registerdItems.get(i).name.equals(itemName))
-				return registerdItems.get(i);
-		}
-		return null;
-	}
-
 }

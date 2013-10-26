@@ -38,10 +38,9 @@ public class Game extends Canvas {
 	public static int reqY; // The y as the mouse requests when you right click.
 	public static Image waypoint; // The Image that appear when the player is walking to a location.
 
-	public static int x;
-	public static int y;
+	public static int x; // X Offset for the screen and mobs.
+	public static int y; // Y Offset for the screen and mobs.
 	
-	public Item item;
 
 	public Game(Keyboard key) {
 		screen = new Screen(1280, 720, 64);
@@ -64,13 +63,13 @@ public class Game extends Canvas {
 
 		inv = new Inventory(993, 28, 5, 4); 
 
-		item = new Item();
-		
-//		inv.addItem(5, Item.getItem("Test"), 1);
-//		inv.addItem(1, Item.getItem("Stick"), 28);
-//		inv.addItem(9, Item.getItem("Stick"), 46);
-//		inv.addItem(15, Item.getItem("Test"), 11);
 
+		level.addItem(Item.saphire);
+		
+
+		inv.addItem(4, level.items.get(0));
+		
+		
 		this.key = key;
 
 	}

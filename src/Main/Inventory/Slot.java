@@ -39,11 +39,11 @@ public class Slot {
 			g.setColor(Color.GRAY);
 
 		g.fill3DRect(x, y, xa, ya, true);
-//		if (item.loadedItems.get(slotNr) != null) {
-//			g.drawImage(item.loadedItems.get(slotNr).texture, x + 4, y + 4, 41, 41, null);
-//			g.setColor(Color.WHITE);
-//			g.setFont(new Font("Verdana", 1, 15));
-//			if (item.loadedItems.get(slotNr).amount != 0) g.drawString(item.loadedItems.get(slotNr).amount + "", x + 25, y + 45);
-//		}
+		if (item != null) {
+			g.drawImage(item.texture, x + 4, y + 4, 41, 41, null);
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Verdana", 1, 15));
+			if (item.amount != 0) g.drawString(item.amount + "", x + 25, y + 45);
+		}
 	}
 }
