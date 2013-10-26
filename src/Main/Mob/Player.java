@@ -7,11 +7,13 @@ import Flash.Graphics.Animation.Animation;
 import Flash.Images.FImage;
 import Flash.Input.Keyboard;
 import FrameWork.Screen;
+import Main.Game;
 
 public class Player extends Mob {
 
 	public Animation a;
 	int anim;
+	public boolean walkingDone = true;
 
 	Image d1;
 	Image d2;
@@ -25,6 +27,7 @@ public class Player extends Mob {
 	Image u1;
 	Image u2;
 	Image u3;
+
 	public Player(int x, int y, Keyboard key) {
 		super(x, y, key);
 		type = "player";
@@ -42,7 +45,7 @@ public class Player extends Mob {
 		u2 = FImage.loadImage("/textures/mobs/" + type + "/Up2.png");
 		u3 = FImage.loadImage("/textures/mobs/" + type + "/Up3.png");
 		speed = 3;
-	
+
 	}
 
 	int xa, ya;
@@ -59,14 +62,29 @@ public class Player extends Mob {
 		}
 		i++;
 
-		if (key.key.get(4))
-			ya = -speed;
-		if (key.key.get(5))
-			ya = speed;
-		if (key.key.get(6))
-			xa = -speed;
-		if (key.key.get(7))
-			xa = speed;
+		if (!Game.walkWithMouse) {
+			if (key.key.get(4))
+				ya = -speed;
+			if (key.key.get(5))
+				ya = speed;
+			if (key.key.get(6))
+				xa = -speed;
+			if (key.key.get(7))
+				xa = speed;
+		} else {
+			if (Game.reqX < x - speed)
+				xa = -speed;
+			if (Game.reqX > x + speed)
+				xa = speed;
+			if (Game.reqY < y - speed)
+				ya = -speed;
+			if (Game.reqY > y + speed)
+				ya = speed;
+			if (x + 32 > Game.reqX && x - 32 < Game.reqX && y + 32 > Game.reqY && y - 32 < Game.reqY)
+				walkingDone = true;
+			else 
+				walkingDone = false;
+		}
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -115,7 +133,11 @@ public class Player extends Mob {
 			if (anim == 3)
 				sprite = u3;
 		}
+
 		s.renderPlayer(g, x, y, sprite);
+		if (!walkingDone)
+			g.drawImage(Game.waypoint, Game.reqX - Game.x, Game.reqY - Game.y - 64, null);
+
 	}
 
 }

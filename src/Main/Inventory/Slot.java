@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import Flash.Button.FFunc;
+import Main.Items.*;
 
 public class Slot {
 
@@ -15,6 +16,7 @@ public class Slot {
 	public Inventory inv;
 	public int slotNr;
 	public static int slots;
+	public Item item;
 
 	public Slot(int x, int y, int xa, int ya, Inventory i) {
 		this.x = x;
@@ -25,6 +27,10 @@ public class Slot {
 		slotNr = slots;
 		slots++;
 	}
+	
+	public void addItem(Item item) {
+		this.item = item;
+	}
 
 	public void render(Graphics g, int slotNr) {
 		if (FFunc.mouseCheckPos(x, y, xa, ya))
@@ -33,11 +39,11 @@ public class Slot {
 			g.setColor(Color.GRAY);
 
 		g.fill3DRect(x, y, xa, ya, true);
-		if (inv.items[slotNr] != null) {
-			g.drawImage(inv.items[slotNr].texture, x + 4, y + 4, 41, 41, null);
-			g.setColor(Color.WHITE);
-			g.setFont(new Font("Verdana", 1, 15));
-			if (inv.items[slotNr].amount != 0) g.drawString(inv.items[slotNr].amount + "", x + 25, y + 45);
-		}
+//		if (item.loadedItems.get(slotNr) != null) {
+//			g.drawImage(item.loadedItems.get(slotNr).texture, x + 4, y + 4, 41, 41, null);
+//			g.setColor(Color.WHITE);
+//			g.setFont(new Font("Verdana", 1, 15));
+//			if (item.loadedItems.get(slotNr).amount != 0) g.drawString(item.loadedItems.get(slotNr).amount + "", x + 25, y + 45);
+//		}
 	}
 }

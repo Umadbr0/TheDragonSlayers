@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import Flash.Button.FFunc;
-import Flash.Button.FGrid;
 import Flash.Button.Mouse;
 import Flash.Images.FImage;
 import Flash.Input.Keyboard;
@@ -23,7 +22,8 @@ import Main.World.Level;
 public class Game extends Canvas {
 
 	Image hud;
-
+	Image pointer1;
+	
 	public Screen screen;
 	public Keyboard key;
 	public Level level;
@@ -32,9 +32,14 @@ public class Game extends Canvas {
 
 	public Inventory inv;
 
-	public String camMode = "mouse";
+	public String camMode = "mouse"; // The mode for the camera.
+	public static boolean walkWithMouse = true; // If the player is controlled by mouse or keyboard.
+	public static int reqX; // The x as the mouse requests when you right click.
+	public static int reqY; // The y as the mouse requests when you right click.
+	public static Image waypoint; // The Image that appear when the player is walking to a location.
 
-	int x, y;
+	public static int x;
+	public static int y;
 	
 	public Item item;
 
@@ -46,6 +51,10 @@ public class Game extends Canvas {
 
 		hud = FImage.loadImage("/textures/hud.png");
 
+		pointer1 = FImage.loadImage("/textures/pointer1.png");
+		waypoint = FImage.loadImage("/textures/waypoint.png");
+		
+		
 		player = new Player(5, 5, key);
 
 		for (int i = 0; i < 5; i++) {
@@ -57,10 +66,10 @@ public class Game extends Canvas {
 
 		item = new Item();
 		
-		inv.addItem(5, Item.getItem("Test"), 1);
-		inv.addItem(1, Item.getItem("Stick"), 28);
-		inv.addItem(9, Item.getItem("Stick"), 46);
-		inv.addItem(15, Item.getItem("Test"), 11);
+//		inv.addItem(5, Item.getItem("Test"), 1);
+//		inv.addItem(1, Item.getItem("Stick"), 28);
+//		inv.addItem(9, Item.getItem("Stick"), 46);
+//		inv.addItem(15, Item.getItem("Test"), 11);
 
 		this.key = key;
 
@@ -103,6 +112,16 @@ public class Game extends Canvas {
 		level.update();
 
 		player.update();
+		
+		if (walkWithMouse) {
+			if (FFunc.mouseCheckRight(0, 0, 960, 480)) {
+				reqX = Mouse.getX() + x - 32;
+				reqY = Mouse.getY() + y - 32;
+			}
+		}
+		
+		
+		
 	}
 
 	public void render(Graphics g) {
@@ -121,6 +140,11 @@ public class Game extends Canvas {
 				moy = Mouse.mouseY;
 			}
 
+		if (walkWithMouse) {
+			if (FFunc.mouseCheckRight(0, 0, 960, 480)) {
+				g.drawImage(pointer1, Mouse.getX() - 32, Mouse.getY() - 32, null);
+			}
+		}
 		g.drawImage(hud, 0, 0, null);
 		g.setColor(Color.yellow);
 		g.setFont(new Font("Verdana", 1, 20));

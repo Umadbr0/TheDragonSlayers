@@ -26,10 +26,14 @@ public class Item {
 		registerdItems.add(i);
 	}
 	
+	
+	
 	public Item(String name, String tex) {
 		this.name = name;
 		texture = FImage.loadImage(tex);
 	}
+	
+	
 
 	public static Item getItem(String itemName) {
 		for (int i = 0; i < registerdItems.size(); i++) {

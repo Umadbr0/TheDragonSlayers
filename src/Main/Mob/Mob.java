@@ -25,7 +25,6 @@ public class Mob {
 	public Mob(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.key = key;
 	}
 	
 	public void update() {
