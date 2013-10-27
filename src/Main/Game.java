@@ -12,7 +12,6 @@ import Flash.Images.FImage;
 import Flash.Input.Keyboard;
 import FrameWork.Screen;
 import Main.Inventory.Inventory;
-import Main.Items.Item;
 import Main.Mob.Mob;
 import Main.Mob.Player;
 import Main.Mob.mobOne;
@@ -23,7 +22,7 @@ public class Game extends Canvas {
 
 	Image hud;
 	Image pointer1;
-	
+
 	public Screen screen;
 	public Keyboard key;
 	public Level level;
@@ -33,27 +32,26 @@ public class Game extends Canvas {
 	public Inventory inv;
 
 	public String camMode = "mouse"; // The mode for the camera.
-	public static boolean walkWithMouse = true; // If the player is controlled by mouse or keyboard.
+	public static boolean walkWithMouse = true; // If the player is controlled
+												// by mouse or keyboard.
 	public static int reqX; // The x as the mouse requests when you right click.
 	public static int reqY; // The y as the mouse requests when you right click.
-	public static Image waypoint; // The Image that appear when the player is walking to a location.
+	public static Image waypoint; // The Image that appear when the player is
+									// walking to a location.
 
 	public static int x; // X Offset for the screen and mobs.
 	public static int y; // Y Offset for the screen and mobs.
-	
 
 	public Game(Keyboard key) {
 		screen = new Screen(1280, 720, 64);
 
-		
 		level = new Level(screen);
 
 		hud = FImage.loadImage("/textures/hud.png");
 
 		pointer1 = FImage.loadImage("/textures/pointer1.png");
 		waypoint = FImage.loadImage("/textures/waypoint.png");
-		
-		
+
 		player = new Player(5, 5, key);
 
 		for (int i = 0; i < 5; i++) {
@@ -61,15 +59,7 @@ public class Game extends Canvas {
 			level.addMob(mob);
 		}
 
-		inv = new Inventory(993, 28, 5, 4); 
 
-
-		level.addItem(Item.saphire);
-		
-
-		inv.addItem(4, level.items.get(0));
-		
-		
 		this.key = key;
 
 	}
@@ -84,9 +74,9 @@ public class Game extends Canvas {
 				x -= player.speed;
 			if (player.y < y)
 				y -= player.speed;
-			if (player.x + 50 * 2 > x + 960)
+			if (player.x + 64 > x + 1280)
 				x += player.speed;
-			if (player.y + 75 * 2 > y + 480)
+			if (player.y + 64 > y + 475)
 				y += player.speed;
 		}
 
@@ -96,7 +86,7 @@ public class Game extends Canvas {
 		}
 
 		if (camMode.equalsIgnoreCase("mouse"))
-			if (FFunc.mouseCheckLeft(0, 0, 960, 480)) {
+			if (FFunc.mouseCheckLeft(0, 0, 1280, 480)) {
 				if (Mouse.mouseX < mox)
 					x -= (Math.abs(mox - Mouse.mouseX) / 10);
 				if (Mouse.mouseX > mox)
@@ -111,16 +101,14 @@ public class Game extends Canvas {
 		level.update();
 
 		player.update();
-		
+
 		if (walkWithMouse) {
-			if (FFunc.mouseCheckRight(0, 0, 960, 480)) {
+			if (FFunc.mouseCheckRight(0, 0, 1280, 480)) {
 				reqX = Mouse.getX() + x - 32;
 				reqY = Mouse.getY() + y - 32;
 			}
 		}
-		
-		
-		
+
 	}
 
 	public void render(Graphics g) {
@@ -130,10 +118,11 @@ public class Game extends Canvas {
 		player.render(screen, g);
 
 		if (camMode.equalsIgnoreCase("mouse"))
-			if (FFunc.mouseCheckLeft(0, 0, 960, 480)) {
+			if (FFunc.mouseCheckLeft(0, 0, 1280, 480)) {
 				g.setColor(Color.blue);
 				g.fillOval(mox - 15, moy - 15, 30, 30);
 				g.drawLine(mox, moy, Mouse.mouseX, Mouse.mouseY);
+				g.fillOval(Mouse.getX() - 5, Mouse.getY() - 5, 10, 10);
 			} else {
 				mox = Mouse.mouseX;
 				moy = Mouse.mouseY;
@@ -144,14 +133,11 @@ public class Game extends Canvas {
 				g.drawImage(pointer1, Mouse.getX() - 32, Mouse.getY() - 32, null);
 			}
 		}
-		g.drawImage(hud, 0, 0, null);
-		g.setColor(Color.yellow);
+		g.drawImage(hud, 0, 0, 1274, 672, null);
+		g.setColor(new Color(25, 25, 25));
 		g.setFont(new Font("Verdana", 1, 20));
-		g.drawString("Cam mode: " + camMode, 970, 510);
+		g.drawString("Cam mode: " + camMode, 1010, 510);
 
-		// FGrid.addRandomGrid(g, 993, 28, 49, 49, 5, 4, 5, false);
-
-		inv.render(g);
 
 	}
 

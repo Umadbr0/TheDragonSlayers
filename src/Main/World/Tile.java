@@ -6,10 +6,10 @@ import java.awt.Image;
 import Flash.Images.FImage;
 import FrameWork.Screen;
 import Main.World.Tiles.tileGrass;
+import Main.World.Tiles.tilePlank;
 import Main.World.Tiles.tileSand;
 import Main.World.Tiles.tileWater;
-import Main.World.Tiles.tilePlank;
-import Main.World.Tiles.tileDoor;
+import Main.World.Tiles.TileGroups.houseOne;
 
 public class Tile {
 
@@ -28,6 +28,10 @@ public class Tile {
 	public static Tile door = new tilePlank("Door","/textures/Tiles/door.png", 0xff7F0000);
 	
 	
+	//Buildings
+	public static Tile houseOne = new houseOne("House Front", "/textures/Tiles/houseOne/front1.png", 0xff7F0037);
+
+	
 	public Tile(String n, String path, int color) {
 		texture = FImage.loadImage(path);
 		this.name = n;
@@ -36,6 +40,10 @@ public class Tile {
 	
 	public Tile(String n) {
 		this.name = n;
+	}
+	
+	public Tile() {
+		
 	}
 	
 	

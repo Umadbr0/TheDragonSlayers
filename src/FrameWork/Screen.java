@@ -31,7 +31,7 @@ public class Screen {
 		
 		x += xOffset;
 		y += yOffset;
-		if (x < 960 && y < 480)
+		if (x < 1280 && y < 480)
 			if (x + playerWidth > 0 && y + playerHeight > 0)
 				g.drawImage(sprite, x, y, playerWidth, playerHeight, null);
 	}

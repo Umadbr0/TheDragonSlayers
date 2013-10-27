@@ -37,8 +37,9 @@ public class Inventory {
 	
 
 
-	public void addItem(int slotNr, Item i) {
+	public void addItem(int slotNr, Item i, int amount) {
 		slots.get(slotNr).item = i;
+		slots.get(slotNr).item.amount = amount;
 	}
 	
 	

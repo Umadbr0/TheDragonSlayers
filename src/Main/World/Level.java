@@ -88,7 +88,7 @@ public class Level {
 		
 
 		for (int y = y0; y < y0 + 9; y++) {
-			for (int x = x0; x < x0 + 16; x++) {
+			for (int x = x0; x < x0 + 21; x++) {
 				getTile(x, y).render(x, y, g, s);
 			}
 		}
@@ -131,6 +131,8 @@ public class Level {
 			return Tile.grass;
 		if (tiles[x + y * width] == Tile.sand.color)
 			return Tile.sand;
+		if (tiles[x + y * width] == Tile.houseOne.color)
+			return Tile.houseOne;
 		} catch(Exception e) {
 		}
 		return Tile.air;
