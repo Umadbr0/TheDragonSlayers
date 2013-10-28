@@ -57,7 +57,7 @@ public class Player extends Mob {
 	public void update() {
 
 		updateShooting();
-
+		
 		for (int i = 0; i < level.mobs.size(); i++) {
 			if (box.collision(level.mobs.get(i).box)) {
 				level.mobs.get(i).remove();
@@ -98,6 +98,14 @@ public class Player extends Mob {
 			else
 				walkingDone = false;
 		}
+			if(key.key.get(10)){
+				speed = 8;
+		}
+		else
+		{
+				speed = 5;
+		}
+		
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -112,6 +120,9 @@ public class Player extends Mob {
 		xa = 0;
 
 	}
+	
+	
+	
 
 	public void render(Screen s, Graphics g) {
 		if (dir == 1) {
@@ -146,6 +157,7 @@ public class Player extends Mob {
 			if (anim == 3)
 				sprite = u3;
 		}
+		
 
 		s.renderPlayer(g, x, y, sprite);
 		if (!walkingDone)

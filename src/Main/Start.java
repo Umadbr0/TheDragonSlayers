@@ -71,13 +71,14 @@ public class Start extends Canvas implements Runnable {
 		key.addKey(KeyEvent.VK_UP); // Key Value 0
 		key.addKey(KeyEvent.VK_DOWN); // 1
 		key.addKey(KeyEvent.VK_LEFT); // 2
-		key.addKey(KeyEvent.VK_RIGHT);	// ....
-		key.addKey(KeyEvent.VK_W);
-		key.addKey(KeyEvent.VK_S);
-		key.addKey(KeyEvent.VK_A);
-		key.addKey(KeyEvent.VK_D);
-		key.addKey(KeyEvent.VK_CONTROL);
-		key.addKey(KeyEvent.VK_C);
+		key.addKey(KeyEvent.VK_RIGHT);	// 3
+		key.addKey(KeyEvent.VK_W); // 4
+		key.addKey(KeyEvent.VK_S); // 5
+		key.addKey(KeyEvent.VK_A); // 6 
+		key.addKey(KeyEvent.VK_D); // 7
+		key.addKey(KeyEvent.VK_CONTROL); //8
+		key.addKey(KeyEvent.VK_C); //9
+		key.addKey(KeyEvent.VK_SHIFT); //10
 
 		frame = new JFrame();
 		m = new menu();
