@@ -41,6 +41,7 @@ public class Game extends Canvas {
 	public static int fps;
 
 	public String camMode = "follow"; // The mode for the camera.
+	public static boolean Running = false;
 	public static boolean walkWithMouse = false; // If the player is controlled
 													// by mouse or keyboard.
 
@@ -98,6 +99,12 @@ public class Game extends Canvas {
 	public void update() {
 		key.update();
 
+		if(key.key.get(10)){
+			Running = true;
+		}else
+			Running = false;
+		
+		
 		if (clearMobsWithC)
 			if (key.key.get(9))
 				level.mobs.clear();
@@ -117,7 +124,7 @@ public class Game extends Canvas {
 			x = player.x - Start.width / 2;
 			y = player.y - 180;
 		}
-
+		
 		if (camMode.equalsIgnoreCase("mouse"))
 			if (FFunc.mouseCheckRight(0, 0, 1280, 480)) {
 				if (Mouse.mouseX < mox)
@@ -137,6 +144,8 @@ public class Game extends Canvas {
 		o.update();
 
 	}
+	
+	
 
 	public void render(Graphics g) {
 
@@ -163,6 +172,7 @@ public class Game extends Canvas {
 		g.drawString("Mobs: " + (level.mobs.size() + 1), 1010, 540);
 		g.drawString("FPS: " + fps, 1010, 570);
 		g.drawString("Mobs rendered: " + Level.renderedMobs, 1010, 600);
+		g.drawString("Running: " + Running, 1010, 630);
 //		g.drawString("Tiles rendered: " + Level.renderedTiles, 1010, 630);
 
 	}
