@@ -7,6 +7,8 @@ import java.util.Random;
 import Flash.Graphics.Animation.Animation;
 import Flash.Images.FImage;
 import FrameWork.Screen;
+import Main.Game;
+import Main.World.Level;
 
 public class mobOne extends Mob {
 
@@ -27,8 +29,8 @@ public class mobOne extends Mob {
 	Image u2;
 	Image u3;
 
-	public mobOne(int x, int y) {
-		super(x, y);
+	public mobOne(int x, int y, Level l, int id) {
+		super(x, y, l, id);
 		type = "test";
 		sprite = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
 
@@ -46,6 +48,8 @@ public class mobOne extends Mob {
 		u3 = FImage.loadImage("/textures/mobs/" + type + "/Up3.png");
 		speed = 3;
 		r = new Random();
+		box = new Hitbox(x, y, 64, 64);
+
 	}
 
 	int xa, ya;
@@ -54,6 +58,7 @@ public class mobOne extends Mob {
 	int rand = 5;
 
 	public void update() {
+		box.set(x - Game.x, y - Game.y);
 
 		if (i > 8) {
 			if (anim < 3) {
@@ -128,6 +133,8 @@ public class mobOne extends Mob {
 				sprite = u3;
 		}
 		s.renderPlayer(g, x, y, sprite);
+		box.render(g);
+
 	}
 
 }

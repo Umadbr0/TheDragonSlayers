@@ -8,6 +8,7 @@ import Flash.Images.FImage;
 import Flash.Input.Keyboard;
 import FrameWork.Screen;
 import Main.Game;
+import Main.World.Level;
 
 public class Player extends Mob {
 
@@ -28,8 +29,8 @@ public class Player extends Mob {
 	Image u2;
 	Image u3;
 
-	public Player(int x, int y, Keyboard key) {
-		super(x, y, key);
+	public Player(int x, int y, Keyboard key, Level l) {
+		super(x, y, key, l);
 		type = "player";
 		sprite = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
 		d1 = FImage.loadImage("/textures/mobs/" + type + "/Down1.png");
@@ -44,7 +45,9 @@ public class Player extends Mob {
 		u1 = FImage.loadImage("/textures/mobs/" + type + "/Up1.png");
 		u2 = FImage.loadImage("/textures/mobs/" + type + "/Up2.png");
 		u3 = FImage.loadImage("/textures/mobs/" + type + "/Up3.png");
-		speed = 3;
+		speed = 5;
+
+		box = new Hitbox(x, y, 64, 64);
 
 	}
 
@@ -52,6 +55,16 @@ public class Player extends Mob {
 	int i = 1;
 
 	public void update() {
+
+		updateShooting();
+
+		for (int i = 0; i < level.mobs.size(); i++) {
+			if (box.collision(level.mobs.get(i).box)) {
+				level.mobs.get(i).remove();
+			}
+		}
+
+		box.set(x - Game.x, y - Game.y);
 
 		if (i > 8) {
 			if (anim < 3) {
@@ -82,7 +95,7 @@ public class Player extends Mob {
 				ya = speed;
 			if (x + 32 > Game.reqX && x - 32 < Game.reqX && y + 32 > Game.reqY && y - 32 < Game.reqY)
 				walkingDone = true;
-			else 
+			else
 				walkingDone = false;
 		}
 
@@ -137,6 +150,8 @@ public class Player extends Mob {
 		s.renderPlayer(g, x, y, sprite);
 		if (!walkingDone)
 			g.drawImage(Game.waypoint, Game.reqX - Game.x, Game.reqY - Game.y - 64, null);
+
+		box.render(g);
 
 	}
 

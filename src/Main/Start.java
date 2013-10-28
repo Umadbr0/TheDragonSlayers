@@ -53,10 +53,7 @@ public class Start extends Canvas implements Runnable {
 	
 	public Start() {
 		
-		
-		//TODO-Create a mob class.
-		//TODO-Create a Player class that extends the mob and make all methods like render and update n' stuff :)
-		
+				
 		Mouse mouse = new Mouse();
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
@@ -74,6 +71,9 @@ public class Start extends Canvas implements Runnable {
 		key.addKey(KeyEvent.VK_A);
 		key.addKey(KeyEvent.VK_D);
 		
+		key.addKey(KeyEvent.VK_CONTROL);
+		key.addKey(KeyEvent.VK_C);
+
 		frame = new JFrame();
 		m = new menu();
 		game = new Game(key);
@@ -101,6 +101,7 @@ public class Start extends Canvas implements Runnable {
 
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void run() {
 
@@ -126,7 +127,8 @@ public class Start extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("UPS: " + updates + ", FPS: " + frames);
+//				System.out.println("UPS: " + updates + ", FPS: " + frames);
+				Game.fps = frames;
 				updates = 0;
 				frames = 0;
 			}

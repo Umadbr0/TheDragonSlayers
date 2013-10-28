@@ -29,7 +29,12 @@ public class Level {
 
 	//The level dimensions.
 	public int width, height;
+	
+	// Rendered mobs in the level.
+	public static int renderedMobs;
 
+	// Rendered tiles in the level.
+	public static int renderedTiles;
 	
 	/*
 	 * Add a level.
@@ -82,7 +87,9 @@ public class Level {
 	 */
 	public void render(int xScroll, int yScroll, Graphics g) {
 
-
+		renderedMobs = 0;
+		renderedTiles = 0;
+		
 		int x0 = -xScroll / 64;
 		int y0 = -yScroll / 64;
 		
@@ -90,6 +97,7 @@ public class Level {
 		for (int y = y0; y < y0 + 9; y++) {
 			for (int x = x0; x < x0 + 21; x++) {
 				getTile(x, y).render(x, y, g, s);
+				renderedTiles++;
 			}
 		}
 		
