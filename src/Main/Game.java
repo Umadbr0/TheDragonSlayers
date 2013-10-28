@@ -172,7 +172,8 @@ public class Game extends Canvas {
 		g.drawString("Mobs: " + (level.mobs.size() + 1), 1010, 540);
 		g.drawString("FPS: " + fps, 1010, 570);
 		g.drawString("Mobs rendered: " + Level.renderedMobs, 1010, 600);
-		g.drawString("Running: " + Running, 1010, 630);
+		g.setFont(new Font("Verdana",1,10));
+		g.drawString("Running: " + Running, 1010, 610);
 //		g.drawString("Tiles rendered: " + Level.renderedTiles, 1010, 630);
 
 	}
