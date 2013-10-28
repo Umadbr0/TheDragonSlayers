@@ -61,16 +61,21 @@ public class Start extends Canvas implements Runnable {
 		key = new Keyboard();
 		addKeyListener(key);
 		
-		key.addKey(KeyEvent.VK_UP);
-		key.addKey(KeyEvent.VK_DOWN);
-		key.addKey(KeyEvent.VK_LEFT);
-		key.addKey(KeyEvent.VK_RIGHT);
+		/*
+		 * To add keys you need to do the key.addKey(KeyEvent.VK_"key").
+		 * You must do it in the right order because it is adding them in to
+		 * an array list and then you use key.key.get("key value") witch returns a 
+		 * boolean if the key is pressed.
+		 */
 		
+		key.addKey(KeyEvent.VK_UP); // Key Value 0
+		key.addKey(KeyEvent.VK_DOWN); // 1
+		key.addKey(KeyEvent.VK_LEFT); // 2
+		key.addKey(KeyEvent.VK_RIGHT);	// ....
 		key.addKey(KeyEvent.VK_W);
 		key.addKey(KeyEvent.VK_S);
 		key.addKey(KeyEvent.VK_A);
 		key.addKey(KeyEvent.VK_D);
-		
 		key.addKey(KeyEvent.VK_CONTROL);
 		key.addKey(KeyEvent.VK_C);
 
