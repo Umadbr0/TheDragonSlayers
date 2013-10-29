@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import FrameWork.Screen;
 import Main.Game;
+import Main.GUI.Target.targetThing;
 import Main.Mob.Hitbox;
 import Main.Mob.Mob;
 
@@ -19,13 +20,14 @@ public class projectile {
 	public int fireRate;
 	public Image texture;
 	public Hitbox box;
-	public Mob firedBy;
+	public static Mob firedBy;
 	public static Mob targeted;
 
 	public projectile() {
 
 	}
 
+	@SuppressWarnings("static-access")
 	public projectile(int x, int y, double angle, Image tex, Mob firedBy) {
 		this.firedBy = firedBy;
 		this.x = x;
@@ -43,13 +45,22 @@ public class projectile {
 		x += xv;
 		y += yv;
 		box.set(x, y);
-	
-		if (!Game.level.isMobAlive(targeted)) targeted = null;
 		
+		targetThing.targeted = targeted;
+		
+		if (!Game.level.isMobAlive(targeted))
+			targeted = null;
+
+		
+
 		for (int i = 0; i < Game.level.mobs.size(); i++) {
+
 			if (Game.level.mobs.get(i) != firedBy)
 				if (box.collision(Game.level.mobs.get(i).box)) {
-					Game.level.mobs.get(i).health -= damage;
+					if (!Game.level.mobs.get(i).peaceful)
+						Game.level.mobs.get(i).health -= damage;
+					if (Game.level.mobs.get(i).hostile)
+						Game.level.mobs.get(i).targeted = firedBy;
 					targeted = Game.level.mobs.get(i);
 					remove();
 				}

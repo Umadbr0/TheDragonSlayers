@@ -1,21 +1,24 @@
-package Main.Mob;
+package Main.Mob.NPCs;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Random;
 
-import Flash.Button.FFunc;
 import Flash.Graphics.Animation.Animation;
 import Flash.Images.FImage;
-import Flash.Input.Keyboard;
 import FrameWork.Screen;
 import Main.Game;
+import Main.GUI.Target.targetThing;
+import Main.Mob.Hitbox;
+import Main.Mob.Mob;
 import Main.World.Level;
+import Main.projectile.proFire;
 
-public class Player extends Mob {
+public class guide extends Mob {
 
+	public Random r;
 	public Animation a;
 	int anim;
-	public boolean walkingDone = true;
 
 	Image d1;
 	Image d2;
@@ -30,10 +33,18 @@ public class Player extends Mob {
 	Image u2;
 	Image u3;
 
-	public Player(int x, int y, Keyboard key, Level l) {
-		super(x, y, key, l);
-		type = "player";
+	public guide(int x, int y, Level l, int id) {
+		super(x, y, l, id);
+
+		type = "guide";
+
+		hostile = false;
+		peaceful = true;
+		speed = 2;
+
 		sprite = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
+		icon = FImage.loadImage("/textures/mobs/" + type + "/icon.png");
+
 		d1 = FImage.loadImage("/textures/mobs/" + type + "/Down1.png");
 		d2 = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
 		d3 = FImage.loadImage("/textures/mobs/" + type + "/Down3.png");
@@ -46,29 +57,58 @@ public class Player extends Mob {
 		u1 = FImage.loadImage("/textures/mobs/" + type + "/Up1.png");
 		u2 = FImage.loadImage("/textures/mobs/" + type + "/Up2.png");
 		u3 = FImage.loadImage("/textures/mobs/" + type + "/Up3.png");
-		speed = 5;
-
+		speed = 3;
+		r = new Random();
 		box = new Hitbox(x, y, 64, 64);
+
+		targetThing.addTarget("Guide", this);
 
 	}
 
 	int xa, ya;
 	int i = 1;
-	int h = 1;
+	int j = 0;
+	int rand = 5;
 
 	public void update() {
 
-		
-		
-		updateShooting();
 
-		if (FFunc.mouseCheckLeft(0, 0, 1280, 460)) {
-			if (h > 8) {
-				h = 0;
-				shoot = true;
+		if (targeted != null) {
+			if (j > 20) {
+				rand = r.nextInt(10);
+				j = 0;
+				shoot(new proFire(x - Game.x + 28, y- Game.y + 28, getAngle(targeted.x, targeted.y), this));
 			}
-			h++;
+			j++;
+
+			if (targeted.x < x)
+				xa -= speed;
+			if (targeted.x > x)
+				xa += speed;
+			if (targeted.y < y)
+				ya -= speed;
+			if (targeted.y > y)
+				ya += speed;
+		} else {
+			if (j > 20) {
+				rand = r.nextInt(10);
+				j = 0;
+
+			}
+			j++;
+
+			if (rand == 0)
+				xa = speed;
+			if (rand == 1)
+				xa = -speed;
+			if (rand == 2)
+				ya = speed;
+			if (rand == 3)
+				ya = -speed;
 		}
+
+		if (health <= 0)
+			remove();
 
 		box.set(x - Game.x, y - Game.y);
 
@@ -80,35 +120,6 @@ public class Player extends Mob {
 			i = 0;
 		}
 		i++;
-
-		if (!Game.walkWithMouse) {
-			if (key.key.get(4))
-				ya = -speed;
-			if (key.key.get(5))
-				ya = speed;
-			if (key.key.get(6))
-				xa = -speed;
-			if (key.key.get(7))
-				xa = speed;
-		} else {
-			if (Game.reqX < x - speed)
-				xa = -speed;
-			if (Game.reqX > x + speed)
-				xa = speed;
-			if (Game.reqY < y - speed)
-				ya = -speed;
-			if (Game.reqY > y + speed)
-				ya = speed;
-			if (x + 32 > Game.reqX && x - 32 < Game.reqX && y + 32 > Game.reqY && y - 32 < Game.reqY)
-				walkingDone = true;
-			else
-				walkingDone = false;
-		}
-		if (key.key.get(10)) {
-			speed = 8;
-		} else {
-			speed = 5;
-		}
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -157,11 +168,7 @@ public class Player extends Mob {
 			if (anim == 3)
 				sprite = u3;
 		}
-
-		s.renderPlayer(g, x, y, sprite);
-		if (!walkingDone)
-			g.drawImage(Game.waypoint, Game.reqX - Game.x, Game.reqY - Game.y - 64, null);
-
+		s.renderMob(g, x, y, 64, 64, sprite);
 		// box.render(g);
 
 	}

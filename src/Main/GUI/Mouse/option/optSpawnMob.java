@@ -4,7 +4,7 @@ import java.awt.Image;
 
 import Main.Game;
 import Main.Mob.Mob;
-import Main.Mob.mobOne;
+import Main.Mob.dragons.dragonBaby;
 
 public class optSpawnMob extends options {
 	
@@ -14,7 +14,7 @@ public class optSpawnMob extends options {
 	}
 
 	public void ifSelected() {
-		Mob mob = new mobOne(FastOption.x + Game.x - 32, FastOption.y + Game.y - 32, Game.level, Game.level.mobs.size());
+		Mob mob = new dragonBaby(FastOption.x + Game.x - 32, FastOption.y + Game.y - 32, Game.level, Game.level.mobs.size());
 		Game.level.addMob(mob);
 	}
 

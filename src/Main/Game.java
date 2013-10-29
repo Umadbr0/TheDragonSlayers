@@ -14,10 +14,12 @@ import FrameWork.Screen;
 import Main.GUI.Mouse.option.FastOption;
 import Main.GUI.Mouse.option.optClearMob;
 import Main.GUI.Mouse.option.optSpawnMob;
+import Main.GUI.Mouse.option.optTarget;
 import Main.GUI.Mouse.option.options;
 import Main.GUI.Target.targetThing;
 import Main.Mob.Mob;
 import Main.Mob.Player;
+import Main.Mob.NPCs.guide;
 import Main.World.Level;
 import Main.projectile.projectile;
 
@@ -35,13 +37,13 @@ public class Game extends Canvas {
 
 	public FastOption o;
 
-
-	public static int fps;
+	public static int fps; // Frames Per Second.
 
 	public String camMode = "follow"; // The mode for the camera.
 	public static boolean Running = false;
 	public static boolean walkWithMouse = false; // If the player is controlled
 													// by mouse or keyboard.
+	public static boolean debug = false;
 
 	public boolean clearMobsWithC = true; // If the player should be able to
 											// clear all mobs by pressing c.
@@ -69,8 +71,10 @@ public class Game extends Canvas {
 		// Init the player.
 		player = new Player(5 * 64, 5 * 64, key, level);
 
-
-
+		//Init the guide.
+		Mob m = new guide(3 * 64, 3 * 64, level, 1);
+		level.addMob(m);
+		
 		/*
 		 * Creates the fast options menu, first an array with all options and
 		 * then add them to the menu.
@@ -79,6 +83,7 @@ public class Game extends Canvas {
 
 		oo[3] = new optSpawnMob(FImage.loadImage("/textures/s.png"));
 		oo[2] = new optClearMob(FImage.loadImage("/textures/c.png"));
+		oo[1] = new optTarget(FImage.loadImage("/textures/pointer1.png"));
 
 		o = new FastOption(oo, key);
 
@@ -134,6 +139,10 @@ public class Game extends Canvas {
 
 		level.update();
 
+		if (projectile.targeted != null)
+			if (projectile.firedBy.getRange(projectile.targeted) > 500)
+				projectile.targeted = null;
+		
 		player.update();
 		o.update();
 
@@ -159,16 +168,19 @@ public class Game extends Canvas {
 		o.render(g);
 		targetThing.render(g);
 		g.drawImage(hud, 0, 0, 1274, 672, null);
-		g.setColor(new Color(25, 25, 25));
-		g.setFont(new Font("Verdana", 1, 10));
-		g.drawString("Cam mode: " + camMode, 1010, 510);
-		g.drawString("Mobs: " + (level.mobs.size() + 1), 1010, 525);
-		g.drawString("FPS: " + fps, 1010, 540);
-		g.drawString("Mobs rendered: " + Level.renderedMobs, 1010, 555);
-		g.drawString("Entitys Rendered: " + Level.renderedEntitys, 1010, 570);
-		g.drawString("Running: " + Running, 1010, 585);
-		g.drawString("Targeted: " + projectile.targeted, 1010, 600);
-
+		if (debug) {
+			g.setColor(new Color(25, 25, 25));
+			g.setFont(new Font("Verdana", 1, 10));
+			g.drawString("Cam mode: " + camMode, 1010, 510);
+			g.drawString("Mobs: " + (level.mobs.size() + 1), 1010, 525);
+			g.drawString("FPS: " + fps, 1010, 540);
+			g.drawString("Mobs rendered: " + Level.renderedMobs, 1010, 555);
+			g.drawString("Entitys Rendered: " + Level.renderedEntitys, 1010, 570);
+			g.drawString("Running: " + Running, 1010, 585);
+			g.drawString("Targeted: " + projectile.targeted, 1010, 600);
+		} else {
+			
+		}
 	}
 
 }

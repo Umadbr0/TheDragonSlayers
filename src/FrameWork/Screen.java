@@ -33,11 +33,24 @@ public class Screen {
 	}
 
 	public void renderPlayer(Graphics g, int x, int y, Image sprite) {
+		playerWidth = 58;
+		playerHeight = 62;
+
+		x += xOffset;
+		y += yOffset;
+		if (x < 1280 && y < 480)
+			if (x + playerWidth > 0 && y + playerHeight > 0) {
+				g.drawImage(sprite, x, y, playerWidth, playerHeight, null);
+				Level.renderedMobs++;
+			}
+	}
+	
+	public void renderMob(Graphics g, int x, int y, int xa, int ya, Image sprite) {
 
 		int scale = 1;
 
-		playerWidth = 64 * scale;
-		playerHeight = 64 * scale;
+		playerWidth = xa * scale;
+		playerHeight = ya * scale;
 
 		x += xOffset;
 		y += yOffset;
