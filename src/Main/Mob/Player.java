@@ -3,6 +3,7 @@ package Main.Mob;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import Flash.Button.FFunc;
 import Flash.Graphics.Animation.Animation;
 import Flash.Images.FImage;
 import Flash.Input.Keyboard;
@@ -53,15 +54,18 @@ public class Player extends Mob {
 
 	int xa, ya;
 	int i = 1;
+	int h = 1;
 
 	public void update() {
 
 		updateShooting();
-		
-		for (int i = 0; i < level.mobs.size(); i++) {
-			if (box.collision(level.mobs.get(i).box)) {
-				level.mobs.get(i).remove();
+
+		if (FFunc.mouseCheckLeft(0, 0, 1280, 460)) {
+			if (h > 8) {
+				h = 0;
+				shoot = true;
 			}
+			h++;
 		}
 
 		box.set(x - Game.x, y - Game.y);
@@ -98,14 +102,11 @@ public class Player extends Mob {
 			else
 				walkingDone = false;
 		}
-			if(key.key.get(10)){
-				speed = 8;
+		if (key.key.get(10)) {
+			speed = 8;
+		} else {
+			speed = 5;
 		}
-		else
-		{
-				speed = 5;
-		}
-		
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -120,9 +121,6 @@ public class Player extends Mob {
 		xa = 0;
 
 	}
-	
-	
-	
 
 	public void render(Screen s, Graphics g) {
 		if (dir == 1) {
@@ -157,13 +155,12 @@ public class Player extends Mob {
 			if (anim == 3)
 				sprite = u3;
 		}
-		
 
 		s.renderPlayer(g, x, y, sprite);
 		if (!walkingDone)
 			g.drawImage(Game.waypoint, Game.reqX - Game.x, Game.reqY - Game.y - 64, null);
 
-		box.render(g);
+		// box.render(g);
 
 	}
 

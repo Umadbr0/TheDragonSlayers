@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import FrameWork.Screen;
-import Main.Items.Item;
 import Main.Mob.Mob;
+import Main.projectile.projectile;
 
 public class Level {
 
@@ -17,8 +17,8 @@ public class Level {
 	//An array of all mobs currently in that level.
 	public ArrayList<Mob> mobs = new ArrayList<Mob>();
 	
-	//An array with all items loaded in the world.
-	public ArrayList<Item> items = new ArrayList<Item>();
+	//An array with all projectiles loaded in the world.
+	public ArrayList<projectile> projectiles = new ArrayList<projectile>();
 	
 	// The array that stores every tile.
 	public int[] tiles;
@@ -35,6 +35,9 @@ public class Level {
 
 	// Rendered tiles in the level.
 	public static int renderedTiles;
+	
+	// Rendered projectiles in the level.
+	public static int renderedEntitys;
 	
 	/*
 	 * Add a level.
@@ -73,12 +76,17 @@ public class Level {
 	/*
 	 * Use this to add a item to the level.
 	 */
-	public void addItem(Item i) {
-		int j = items.size();
-		items.add(i);
-		items.get(items.size() - 1).inWorldId = j;
+	public void addProjectile(projectile p) {
+		projectiles.add(p);
 	}
 	
+	
+	public boolean isMobAlive(Mob m) {
+		for (int i = 0; i < mobs.size(); i++) {
+			if (mobs.get(i) == m) return true;
+		}
+		return false;
+	}
 	
 	
 	/*
@@ -89,6 +97,7 @@ public class Level {
 
 		renderedMobs = 0;
 		renderedTiles = 0;
+		renderedEntitys = 0;
 		
 		int x0 = -xScroll / 64;
 		int y0 = -yScroll / 64;
@@ -100,10 +109,13 @@ public class Level {
 				renderedTiles++;
 			}
 		}
-		
+		for (int i = 0; i < projectiles.size(); i++) {
+			projectiles.get(i).render(s, g);
+		}
 		for (int i = 0; i < mobs.size(); i++) {
 			mobs.get(i).render(s, g);
 		}
+
 		
 		
 	}
@@ -113,6 +125,9 @@ public class Level {
 	 * except the player witch has its own update method.
 	 */
 	public void update() {
+		for (int i = 0; i < projectiles.size(); i++) {
+			projectiles.get(i).update();
+		}
 		for (int i = 0; i < mobs.size(); i++) {
 			mobs.get(i).update();
 		}
@@ -121,7 +136,7 @@ public class Level {
 	
 	
 	/*
-	 * Use this to get a spesific tile by its coords.
+	 * Use this to get a specific tile by its coords.
 	 */
 	public Tile getTile(int x, int y) {
 		if ((x < 0) || (x > width) || (y < 0) || (y > height))

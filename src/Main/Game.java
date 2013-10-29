@@ -14,13 +14,12 @@ import FrameWork.Screen;
 import Main.GUI.Mouse.option.FastOption;
 import Main.GUI.Mouse.option.optClearMob;
 import Main.GUI.Mouse.option.optSpawnMob;
-import Main.GUI.Mouse.option.optWalkThere;
 import Main.GUI.Mouse.option.options;
-import Main.Inventory.Inventory;
+import Main.GUI.Target.targetThing;
 import Main.Mob.Mob;
 import Main.Mob.Player;
-import Main.Mob.mobOne;
 import Main.World.Level;
+import Main.projectile.projectile;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas {
@@ -36,7 +35,6 @@ public class Game extends Canvas {
 
 	public FastOption o;
 
-	public Inventory inv;
 
 	public static int fps;
 
@@ -71,24 +69,20 @@ public class Game extends Canvas {
 		// Init the player.
 		player = new Player(5 * 64, 5 * 64, key, level);
 
-		for (int i = 0; i < 1; i++) {
-			Mob m = new mobOne(5 * 64, 5 * 64, level, level.mobs.size());
-			level.addMob(m);
-			System.out.println("Added mob: " + i);
-		}
+
 
 		/*
 		 * Creates the fast options menu, first an array with all options and
 		 * then add them to the menu.
 		 */
 		options[] oo = new options[4];
-		if (walkWithMouse)
-			oo[1] = new optWalkThere(FImage.loadImage("/textures/arrow.png"));
+
 		oo[3] = new optSpawnMob(FImage.loadImage("/textures/s.png"));
 		oo[2] = new optClearMob(FImage.loadImage("/textures/c.png"));
 
 		o = new FastOption(oo, key);
 
+		new targetThing();
 		// Init the key.
 		this.key = key;
 
@@ -98,13 +92,13 @@ public class Game extends Canvas {
 
 	public void update() {
 		key.update();
+		targetThing.update();
 
-		if(key.key.get(10)){
+		if (key.key.get(10)) {
 			Running = true;
-		}else
+		} else
 			Running = false;
-		
-		
+
 		if (clearMobsWithC)
 			if (key.key.get(9))
 				level.mobs.clear();
@@ -124,7 +118,7 @@ public class Game extends Canvas {
 			x = player.x - Start.width / 2;
 			y = player.y - 180;
 		}
-		
+
 		if (camMode.equalsIgnoreCase("mouse"))
 			if (FFunc.mouseCheckRight(0, 0, 1280, 480)) {
 				if (Mouse.mouseX < mox)
@@ -144,8 +138,6 @@ public class Game extends Canvas {
 		o.update();
 
 	}
-	
-	
 
 	public void render(Graphics g) {
 
@@ -165,16 +157,17 @@ public class Game extends Canvas {
 			}
 
 		o.render(g);
+		targetThing.render(g);
 		g.drawImage(hud, 0, 0, 1274, 672, null);
 		g.setColor(new Color(25, 25, 25));
-		g.setFont(new Font("Verdana", 1, 20));
+		g.setFont(new Font("Verdana", 1, 10));
 		g.drawString("Cam mode: " + camMode, 1010, 510);
-		g.drawString("Mobs: " + (level.mobs.size() + 1), 1010, 540);
-		g.drawString("FPS: " + fps, 1010, 570);
-		g.drawString("Mobs rendered: " + Level.renderedMobs, 1010, 600);
-		g.setFont(new Font("Verdana",1,10));
-		g.drawString("Running: " + Running, 1010, 610);
-//		g.drawString("Tiles rendered: " + Level.renderedTiles, 1010, 630);
+		g.drawString("Mobs: " + (level.mobs.size() + 1), 1010, 525);
+		g.drawString("FPS: " + fps, 1010, 540);
+		g.drawString("Mobs rendered: " + Level.renderedMobs, 1010, 555);
+		g.drawString("Entitys Rendered: " + Level.renderedEntitys, 1010, 570);
+		g.drawString("Running: " + Running, 1010, 585);
+		g.drawString("Targeted: " + projectile.targeted, 1010, 600);
 
 	}
 

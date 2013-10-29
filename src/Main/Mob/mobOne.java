@@ -8,6 +8,7 @@ import Flash.Graphics.Animation.Animation;
 import Flash.Images.FImage;
 import FrameWork.Screen;
 import Main.Game;
+import Main.GUI.Target.targetThing;
 import Main.World.Level;
 
 public class mobOne extends Mob {
@@ -31,9 +32,12 @@ public class mobOne extends Mob {
 
 	public mobOne(int x, int y, Level l, int id) {
 		super(x, y, l, id);
+		
 		type = "test";
 		sprite = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
-
+		icon = FImage.loadImage("/textures/mobs/" + type + "/icon.png");
+		
+		
 		d1 = FImage.loadImage("/textures/mobs/" + type + "/Down1.png");
 		d2 = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
 		d3 = FImage.loadImage("/textures/mobs/" + type + "/Down3.png");
@@ -49,6 +53,8 @@ public class mobOne extends Mob {
 		speed = 3;
 		r = new Random();
 		box = new Hitbox(x, y, 64, 64);
+		
+		targetThing.addTarget("Mob One", this);
 
 	}
 
@@ -58,6 +64,13 @@ public class mobOne extends Mob {
 	int rand = 5;
 
 	public void update() {
+		
+		
+//		updateShooting();
+//		shoot = true;
+		
+		if (health <= 0) remove();
+		
 		box.set(x - Game.x, y - Game.y);
 
 		if (i > 8) {
@@ -133,7 +146,7 @@ public class mobOne extends Mob {
 				sprite = u3;
 		}
 		s.renderPlayer(g, x, y, sprite);
-		box.render(g);
+//		box.render(g);
 
 	}
 

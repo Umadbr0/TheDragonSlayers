@@ -60,7 +60,7 @@ public class FastOption {
 	public boolean hasMouseBeenDown = false;
 
 	public void update() {
-			if (FFunc.mouseCheckLeft(0, 0, 1280, 460)) {
+			if (FFunc.mouseCheckRight(0, 0, 1280, 460)) {
 				active = true;
 				
 			} else {
