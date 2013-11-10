@@ -17,5 +17,9 @@ public class tilePlank extends Tile {
 	public void render(int x, int y, Graphics g, Screen s) {
 		s.renderTile(x, y, this.texture, g);
 	}
+	
+	public boolean solid() {
+		return true;
+	}
 
 }

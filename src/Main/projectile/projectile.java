@@ -38,36 +38,65 @@ public class projectile {
 		yv = speed * Math.sin(-angle + 1.5);
 		texture = tex;
 		box = new Hitbox(x, y, 32, 32);
+	}
 
+	Mob m;
+
+	public void onCollision() {
+		targeted = m;
+		System.out.println("Shooting at: " + targeted + ", " + targeted.hostile);
+		if (!targeted.peaceful)
+			targeted.health -= damage;
+		remove();
+	}
+
+	public void targetIsHostile() {
+		targeted.targeted = firedBy;
 	}
 
 	public void update() {
 		x += xv;
 		y += yv;
 		box.set(x, y);
-		
-		targetThing.targeted = targeted;
-		
-		if (!Game.level.isMobAlive(targeted))
-			targeted = null;
-
-		
 
 		for (int i = 0; i < Game.level.mobs.size(); i++) {
+			m = Game.level.mobs.get(i);
+			if (m != firedBy) {
+				if (box.collision(m.box)) {
+					onCollision();
 
-			if (Game.level.mobs.get(i) != firedBy)
-				if (box.collision(Game.level.mobs.get(i).box)) {
-					if (!Game.level.mobs.get(i).peaceful)
-						Game.level.mobs.get(i).health -= damage;
-					if (Game.level.mobs.get(i).hostile)
-						Game.level.mobs.get(i).targeted = firedBy;
-					targeted = Game.level.mobs.get(i);
-					remove();
+					if (targeted.health <= 0)
+						firedBy.MobKills++;
+
+					if (targeted.hostile)
+						targetIsHostile();
+
+
+					if (firedBy == Game.player) 
+						targetThing.targeted = targeted;
+					
 				}
+			}
 		}
 
-		if (distance() > range)
-			remove();
+		// // Sets the players targeted to the damaged mob.
+		// if (firedBy.type.equals("player"))
+		// if (Game.level.mobs.get(i) != null)
+		// targeted = Game.level.mobs.get(i);
+		//
+		// remove(); // Removes the projectile.
+		// }
+		// }
+		// }
+
+		// if (firedBy.type.equals("player"))
+		// targetThing.targeted = targeted;
+		//
+		// if (!Game.level.isMobAlive(targeted))
+		// targeted = null;
+		//
+		// if (distance() > range)
+		// remove();
 	}
 
 	private void remove() {
@@ -82,7 +111,7 @@ public class projectile {
 
 	public void render(Screen s, Graphics g) {
 		s.renderEntity(g, (int) x, (int) y, 32, 32, texture);
-		// box.render(g);
+		box.render(g);
 	}
 
 }

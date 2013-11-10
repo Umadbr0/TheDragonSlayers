@@ -4,12 +4,15 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import Flash.Button.FFunc;
+import Flash.Button.Mouse;
 import Flash.Graphics.Animation.Animation;
 import Flash.Images.FImage;
 import Flash.Input.Keyboard;
 import FrameWork.Screen;
 import Main.Game;
 import Main.World.Level;
+import Main.projectile.proFire;
+import Main.projectile.projectile;
 
 public class Player extends Mob {
 
@@ -29,9 +32,11 @@ public class Player extends Mob {
 	Image u1;
 	Image u2;
 	Image u3;
+	
 
 	public Player(int x, int y, Keyboard key, Level l) {
 		super(x, y, key, l);
+		peaceful = false;
 		type = "player";
 		sprite = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
 		d1 = FImage.loadImage("/textures/mobs/" + type + "/Down1.png");
@@ -49,30 +54,55 @@ public class Player extends Mob {
 		speed = 5;
 
 		box = new Hitbox(x, y, 64, 64);
+		healthRegen = 4.0;
+		spriteSizeX = 55;
+		spriteSizeY = 58;
+		xMod = 3;
+		yMod = -5;
 
 	}
 
 	int xa, ya;
 	int i = 1;
 	int h = 1;
+	int in = 1;
 
+	public void respawn() {
+		health = 100;
+		x = 5 * 64;
+		y = 5 * 64;
+		dead = false;
+	}
+
+	
+	int aSpeed = 3;
 	public void update() {
 
-		
-		
+		if (health > maxHealth)
+			health = maxHealth;
+
+//		System.out.println(health + ", " + healthRegen / 60.0);
+		if (health < maxHealth) {
+			health += healthRegen / 60;
+		}
+
+		if (health < 0)
+			dead = true;
+
 		updateShooting();
 
-		if (FFunc.mouseCheckLeft(0, 0, 1280, 460)) {
-			if (h > 8) {
-				h = 0;
-				shoot = true;
+		if (!Game.pressingOnGui)
+			if (FFunc.mouseCheckLeft(0, 0, 1280, 700)) {
+				if (h > 8) {
+					h = 0;
+					shoot(new proFire(x - Game.x + 28, y - Game.y + 28, getAngle((float) Mouse.mouseX - 32 + Game.x, (float) Mouse.mouseY - 32 + Game.y), this));
+				}
+				h++;
 			}
-			h++;
-		}
 
 		box.set(x - Game.x, y - Game.y);
 
-		if (i > 8) {
+		if (i > aSpeed) {
 			if (anim < 3) {
 				anim++;
 			} else
@@ -106,8 +136,10 @@ public class Player extends Mob {
 		}
 		if (key.key.get(10)) {
 			speed = 8;
+			aSpeed = 4;
 		} else {
 			speed = 5;
+			aSpeed = 8;
 		}
 
 		if (xa != 0 || ya != 0) {

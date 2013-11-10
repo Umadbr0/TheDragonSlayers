@@ -15,7 +15,6 @@ public class optClearMob extends options {
 	
 		Game.level.mobs.clear();
 		
-//		Game.level.mobs.get(0).remove();
 		
 	}
 

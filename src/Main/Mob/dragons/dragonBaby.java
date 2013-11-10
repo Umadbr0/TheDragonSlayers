@@ -23,20 +23,32 @@ public class dragonBaby extends Mob {
 	Image d1;
 	Image d2;
 	Image d3;
+	Image d4;
+
 	Image l1;
 	Image l2;
 	Image l3;
+	Image l4;
+
 	Image r1;
 	Image r2;
 	Image r3;
+	Image r4;
+
 	Image u1;
 	Image u2;
 	Image u3;
+	Image u4;
 
 	public dragonBaby(int x, int y, Level l, int id) {
 		super(x, y, l, id);
 
 		type = "dragonBaby";
+
+		spriteSizeX = 96;
+		spriteSizeY = 96;
+		xMod = 0;
+		yMod = 0;
 
 		hostile = true;
 		peaceful = false;
@@ -48,20 +60,27 @@ public class dragonBaby extends Mob {
 		d1 = FImage.loadImage("/textures/mobs/" + type + "/Down1.png");
 		d2 = FImage.loadImage("/textures/mobs/" + type + "/Down2.png");
 		d3 = FImage.loadImage("/textures/mobs/" + type + "/Down3.png");
+		d4 = FImage.loadImage("/textures/mobs/" + type + "/Down4.png");
+
 		l1 = FImage.loadImage("/textures/mobs/" + type + "/Left1.png");
 		l2 = FImage.loadImage("/textures/mobs/" + type + "/Left2.png");
 		l3 = FImage.loadImage("/textures/mobs/" + type + "/Left3.png");
+		l4 = FImage.loadImage("/textures/mobs/" + type + "/Left4.png");
+
 		r1 = FImage.loadImage("/textures/mobs/" + type + "/Right1.png");
 		r2 = FImage.loadImage("/textures/mobs/" + type + "/Right2.png");
 		r3 = FImage.loadImage("/textures/mobs/" + type + "/Right3.png");
+		r4 = FImage.loadImage("/textures/mobs/" + type + "/Right4.png");
+
 		u1 = FImage.loadImage("/textures/mobs/" + type + "/Up1.png");
 		u2 = FImage.loadImage("/textures/mobs/" + type + "/Up2.png");
 		u3 = FImage.loadImage("/textures/mobs/" + type + "/Up3.png");
+		u4 = FImage.loadImage("/textures/mobs/" + type + "/Up4.png");
+
 		speed = 3;
 		r = new Random();
-		box = new Hitbox(x, y, 64, 64);
+		box = new Hitbox(x, y, 96, 96);
 
-		targetThing.addTarget("Dragon Baby", this);
 
 	}
 
@@ -71,31 +90,35 @@ public class dragonBaby extends Mob {
 	int rand = 5;
 
 	public void update() {
+		if (j > 20) {
+			rand = r.nextInt(10);
+			j = 0;
 
-
+		}
+		j++;
 		if (targeted != null) {
 			if (j > 20) {
 				rand = r.nextInt(10);
 				j = 0;
-				shoot(new proFire(x - Game.x + 28, y- Game.y + 28, getAngle(targeted.x, targeted.y), this));
+				if (getRange(targeted) < 300)shoot(new proFire(x - Game.x + 28, y - Game.y + 28, getAngle(targeted.x, targeted.y), this));
 			}
 			j++;
 
-			if (targeted.x < x)
-				xa -= speed;
-			if (targeted.x > x)
-				xa += speed;
-			if (targeted.y < y)
-				ya -= speed;
-			if (targeted.y > y)
-				ya += speed;
+			if (getRange(targeted) > 100){
+				if (targeted.x < x)
+					xa -= speed;
+				if (targeted.x > x)
+					xa += speed;
+				if (targeted.y < y)
+					ya -= speed;
+				if (targeted.y > y)
+					ya += speed;
+			}
+			
+			if (getRange(targeted) > 500)if (rand == 4) targeted = null;
+
 		} else {
-			if (j > 20) {
-				rand = r.nextInt(10);
-				j = 0;
 
-			}
-			j++;
 
 			if (rand == 0)
 				xa = speed;
@@ -113,7 +136,7 @@ public class dragonBaby extends Mob {
 		box.set(x - Game.x, y - Game.y);
 
 		if (i > 8) {
-			if (anim < 3) {
+			if (anim < 4) {
 				anim++;
 			} else
 				anim = 1;
@@ -143,6 +166,8 @@ public class dragonBaby extends Mob {
 				sprite = d2;
 			if (anim == 3)
 				sprite = d3;
+			if (anim == 4)
+				sprite = d4;
 		}
 		if (dir == 3) {
 			if (anim == 1)
@@ -168,8 +193,9 @@ public class dragonBaby extends Mob {
 			if (anim == 3)
 				sprite = u3;
 		}
-		s.renderMob(g, x, y, 64, 64, sprite);
-		// box.render(g);
+
+		s.renderMob(g, x, y, 96, 96, sprite);
+		 box.render(g);
 
 	}
 

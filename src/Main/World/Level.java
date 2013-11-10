@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import FrameWork.Screen;
 import Main.Mob.Mob;
+import Main.Mob.Spawner.WorldSpawner;
 import Main.projectile.projectile;
 
 public class Level {
@@ -103,7 +104,7 @@ public class Level {
 		int y0 = -yScroll / 64;
 		
 
-		for (int y = y0; y < y0 + 9; y++) {
+		for (int y = y0; y < y0 + 12; y++) {
 			for (int x = x0; x < x0 + 21; x++) {
 				getTile(x, y).render(x, y, g, s);
 				renderedTiles++;
@@ -125,6 +126,9 @@ public class Level {
 	 * except the player witch has its own update method.
 	 */
 	public void update() {
+		
+		if (mobs.size() < 50)WorldSpawner.update();
+		
 		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).update();
 		}
@@ -160,6 +164,14 @@ public class Level {
 		}
 		return Tile.air;
 
+	}
+
+
+	public Mob getMob(String string) {
+		for (Mob m : mobs) {
+			if (m.type == string) return m;
+		}
+		return null;
 	}
 
 }

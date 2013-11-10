@@ -18,10 +18,20 @@ public class Mob {
 	public boolean peaceful = true; // If you can harm the mob.
 	public boolean boss = false; // If its a boss.
 	public int speed = 2; // The speed in pixels.
-	public int health = 100; // The mob health.
+	public double health = 100.0; // The mob health.
+	public double maxHealth = 100.0; // The mob max health.
+	public double healthRegen = 2.0; // The amount of health the mob should regen per sec.
 	public String type; // The kind of mob, used for texture path and targeting.
-
+	public double xp; // Experience.
+	public boolean isTalking; //If the mob is talking to another.
+	public Mob talkingTo; //The mob that this mob is talking to.
+	public int MobKills = 0; // Kills.
+	
+	
+	public boolean dead = false;
 	public Mob targeted;
+
+	public int spriteSizeX, spriteSizeY, xMod, yMod;
 	
 	public int x, y;
 	public Keyboard key;
@@ -34,6 +44,7 @@ public class Mob {
 	public int id;
 	public boolean shoot = false;
 	public projectile selectedProjectile;
+	public Mob fireOn;
 
 	public Mob(int x, int y, Keyboard key, Level l) {
 		this.x = x;
@@ -54,7 +65,7 @@ public class Mob {
 		dist = Math.sqrt(Math.abs((m.x - x) * (m.x - x) + (m.y - y) * (m.y - y)));
 		return dist;
 	}
-	
+
 	public float getAngle(float x, float y) {
 		return (float) Math.atan2(x - this.x, y - this.y);
 	}
@@ -70,7 +81,7 @@ public class Mob {
 	public void shoot(projectile p) {
 		level.addProjectile(p);
 	}
-	
+
 	public void update() {
 
 	}
@@ -81,22 +92,56 @@ public class Mob {
 
 	public void move(int xv, int yv) {
 
-		if (xv > 0)
-			dir = 2;
-		if (xv < 0)
-			dir = 3;
-		if (yv > 0)
-			dir = 1;
-		if (yv < 0)
-			dir = 0;
+		if (xv > 0) dir = 2;
+		if (xv < 0) dir = 3;
+		if (yv > 0) dir = 1;
+		if (yv < 0) dir = 0;
 
-		x += xv;
-		y += yv;
-
+		if (!collision(xv, 0)) {
+			if (xv > 0) {
+				x += xv;
+			}
+			if (xv < 0) {
+				x += xv;
+			}
+		}
+		if (!collision(0, yv)) {
+			if (yv > 0) {
+				y += yv;
+			}
+			if (yv < 0) {
+				y += yv;
+			}
+		}
 	}
 
 	public void render(Screen s, Graphics g) {
 
+	}
+
+	public boolean collision(int xa, int ya) {
+		boolean solid = false;
+
+		for (int c = 0; c < 4; c++) {
+			int xt = ((x + xa) + c % 2 * spriteSizeX + xMod) / 64;
+			int yt = ((y + ya) + c / 2 * spriteSizeY - yMod) / 64;
+			if (level.getTile(xt, yt).solid())
+				solid = true;
+
+		}
+
+		return solid;
+	}
+
+	public void respawn() {		
+	}
+
+	public void isTalkingTo(boolean b) {
+		if (b) {
+			Game.player.talkingTo = this;
+		} else {
+			Game.player.talkingTo = null;
+		}
 	}
 
 }

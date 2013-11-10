@@ -61,9 +61,12 @@ public class guide extends Mob {
 		r = new Random();
 		box = new Hitbox(x, y, 64, 64);
 
-		targetThing.addTarget("Guide", this);
-
+		spriteSizeX = 55;
+		spriteSizeY = 58;
+		xMod = 3;
+		yMod = -5;
 	}
+
 
 	int xa, ya;
 	int i = 1;
@@ -72,12 +75,11 @@ public class guide extends Mob {
 
 	public void update() {
 
-
 		if (targeted != null) {
 			if (j > 20) {
 				rand = r.nextInt(10);
 				j = 0;
-				shoot(new proFire(x - Game.x + 28, y- Game.y + 28, getAngle(targeted.x, targeted.y), this));
+				shoot(new proFire(x - Game.x + 28, y - Game.y + 28, getAngle(targeted.x, targeted.y), this));
 			}
 			j++;
 
@@ -169,7 +171,7 @@ public class guide extends Mob {
 				sprite = u3;
 		}
 		s.renderMob(g, x, y, 64, 64, sprite);
-		// box.render(g);
+		 box.render(g);
 
 	}
 

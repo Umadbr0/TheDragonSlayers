@@ -3,7 +3,7 @@ package Main.GUI.Mouse.option;
 import java.awt.Image;
 
 import Main.Game;
-import Main.projectile.projectile;
+import Main.GUI.Target.targetThing;
 
 public class optTarget extends options {
 
@@ -15,12 +15,10 @@ public class optTarget extends options {
 
 		for (int i = 0; i < Game.level.mobs.size(); i++) {
 			if (Game.level.mobs.get(i).box.r.intersects(FastOption.x, FastOption.y, 1, 1)) {
-//				System.out.println("Target: " + Game.level.mobs.get(i));
-				projectile.targeted = Game.level.mobs.get(i);
+				if (!(Game.level.mobs.get(i).type=="player"))targetThing.targeted = Game.level.mobs.get(i);
 				break;
 			} else {
-//				System.out.println("Target: null");
-				projectile.targeted = null;
+				targetThing.targeted = null;
 			}
 			
 		}

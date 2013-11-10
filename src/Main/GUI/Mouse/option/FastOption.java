@@ -3,7 +3,6 @@ package Main.GUI.Mouse.option;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 
 import Flash.Button.FFunc;
 import Flash.Button.Mouse;
@@ -60,7 +59,7 @@ public class FastOption {
 	public boolean hasMouseBeenDown = false;
 
 	public void update() {
-			if (FFunc.mouseCheckRight(0, 0, 1280, 460)) {
+			if (FFunc.mouseCheckRight(0, 0, 1280, 700)) {
 				active = true;
 				
 			} else {

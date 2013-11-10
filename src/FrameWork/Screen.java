@@ -3,6 +3,7 @@ package FrameWork;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import Main.Start;
 import Main.World.Level;
 
 public class Screen {
@@ -25,7 +26,7 @@ public class Screen {
 	}
 
 	public void renderEntity(Graphics g, int x, int y, int xa, int ya, Image sprite) {
-		if (x < 1280 && y < 480)
+		if (x < Start.width && y < Start.height)
 			if (x + xa > 0 && y + ya > 0) {
 				g.drawImage(sprite, x, y, xa, ya, null);
 				Level.renderedEntitys++;
@@ -38,7 +39,7 @@ public class Screen {
 
 		x += xOffset;
 		y += yOffset;
-		if (x < 1280 && y < 480)
+		if (x < Start.width && y < Start.height)
 			if (x + playerWidth > 0 && y + playerHeight > 0) {
 				g.drawImage(sprite, x, y, playerWidth, playerHeight, null);
 				Level.renderedMobs++;
@@ -54,7 +55,7 @@ public class Screen {
 
 		x += xOffset;
 		y += yOffset;
-		if (x < 1280 && y < 480)
+		if (x < Start.width && y < Start.height)
 			if (x + playerWidth > 0 && y + playerHeight > 0) {
 				g.drawImage(sprite, x, y, playerWidth, playerHeight, null);
 				Level.renderedMobs++;

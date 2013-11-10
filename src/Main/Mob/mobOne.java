@@ -54,7 +54,6 @@ public class mobOne extends Mob {
 		r = new Random();
 		box = new Hitbox(x, y, 64, 64);
 		
-		targetThing.addTarget("Mob One", this);
 
 	}
 

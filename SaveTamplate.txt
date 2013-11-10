@@ -1,0 +1,2 @@
+PlayerSaving: name-level-health-xp-x-y-mana-firstTimeOpen
+QuestSaving:  name-imagePath-doneOrNot
